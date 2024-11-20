@@ -50,7 +50,9 @@ public with sharing class UploadController {
                         Object value;
                         Boolean ignore = false;
 
-                        switch on fields[fieldIndex].dataType {
+                        String fieldType = fields[fieldIndex].dataType;
+
+                        switch on fieldType {
                             when 'REFERENCE' {
                                 
                                 value = getIdFromName(fieldIndex, record[fieldIndex]);
@@ -101,17 +103,6 @@ public with sharing class UploadController {
                 throw new AuraHandledException('Insufficient permissions to create ' + sObjectTypeName + ' records.');
             }
 
-        } catch (UploadController.DataException e) {
-
-            String message = 'There was a problem with the data';
-
-            throw new AuraHandledException(message + ': ' + e.getMessage());
-
-        } catch (SObjectException e) {
-
-            String message = 'There was a problem with the configuration of the component';
-
-            throw new AuraHandledException(message + ': ' + e.getMessage());
         
         } catch (Exception e){
 
